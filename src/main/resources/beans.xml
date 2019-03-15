@@ -4,6 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="config" class="com.yy.vokiller.VOScannerConfigurer">
-        <property name="basePackage" value="com.yy.vokiller"/>
+        <property name="basePackage" value="com.yy.test"/>
     </bean>
 </beans>

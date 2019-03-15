@@ -1,6 +1,7 @@
 package com.yy.vokiller;
 
 
+import com.yy.annotation.VoConfigure;
 import net.sf.cglib.beans.BeanGenerator;
 import net.sf.cglib.beans.BeanMap;
 

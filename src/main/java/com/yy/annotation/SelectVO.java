@@ -1,4 +1,4 @@
-package com.yy.vokiller;
+package com.yy.annotation;
 
 
 import java.lang.annotation.ElementType;
@@ -9,7 +9,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SelectVO {
-
     String vql();
-
 }

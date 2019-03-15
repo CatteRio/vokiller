@@ -1,4 +1,6 @@
-package com.yy.vokiller;
+package com.yy.test;
+
+import com.yy.annotation.VoConfigure;
 
 import java.io.Serializable;
 import java.util.Date;

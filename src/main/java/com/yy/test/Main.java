@@ -1,10 +1,6 @@
-package com.yy.vokiller;
+package com.yy.test;
 
-import com.alibaba.fastjson.JSON;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.util.*;
 
 public class Main {
 
@@ -31,12 +27,7 @@ public class Main {
 
 
         ClassPathXmlApplicationContext app = new ClassPathXmlApplicationContext("beans.xml");
-
         UserVO userVO = (UserVO) app.getBean(UserVO.class);
         userVO.getUserNameResponse(new User());
-        app.start();
-
-
-
     }
 }

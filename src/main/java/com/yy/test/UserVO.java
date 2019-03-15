@@ -1,4 +1,7 @@
-package com.yy.vokiller;
+package com.yy.test;
+
+import com.yy.annotation.SelectVO;
+import com.yy.vokiller.UserNameVO;
 
 public interface UserVO {
 
@@ -9,7 +12,7 @@ public interface UserVO {
      * @return
      */
     @SelectVO(vql = "id,name,sex,age")
-    Object getUserResponse(User user,Integer age);
+    Object getUserResponse(User user, Integer age);
 
 
     /**
