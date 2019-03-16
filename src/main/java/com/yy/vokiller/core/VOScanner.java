@@ -41,7 +41,6 @@ public class VOScanner extends ClassPathBeanDefinitionScanner {
     private void processBeanDefinitions(Set<BeanDefinitionHolder> beanDefinitions) {
         for (BeanDefinitionHolder holder : beanDefinitions) {
             GenericBeanDefinition definition = (GenericBeanDefinition) holder.getBeanDefinition();
-            String beanClassName = definition.getBeanClassName();
             definition.getPropertyValues().add("innerClassName", definition.getBeanClassName());
             definition.setBeanClass(VOFactoryBean.class);
         }
