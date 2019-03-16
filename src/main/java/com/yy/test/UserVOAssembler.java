@@ -21,6 +21,15 @@ public interface UserVOAssembler {
                            @VOParam(value = "permission") List<String> permission,
                            @VOParam(value = "role") List<String> role);
 
+    /**
+     * 获取名称VO
+     *
+     * @param user
+     * @return
+     */
+    @SelectVO()
+    Object getUserNameObjectVO(@VOParam(include = {"name"}) User user);
+
 
     /**
      * 获取名称VO
@@ -28,7 +37,7 @@ public interface UserVOAssembler {
      * @param user
      * @return
      */
-    @SelectVO(vql = "name")
-    UserNameVO getUserNameResponse(User user);
+    @SelectVO()
+    UserNameVO getUserNameResponse(@VOParam(include = {"name"}) User user);
 
 }
