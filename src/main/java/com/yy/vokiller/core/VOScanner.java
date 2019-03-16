@@ -1,21 +1,18 @@
-package com.yy.vokiller;
+package com.yy.vokiller.core;
 
-import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
-import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.core.type.classreading.MetadataReader;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.Set;
 
+/**
+ * @author Macbook
+ */
 public class VOScanner extends ClassPathBeanDefinitionScanner {
 
     public VOScanner(BeanDefinitionRegistry registry) {
@@ -42,13 +39,11 @@ public class VOScanner extends ClassPathBeanDefinitionScanner {
     }
 
     private void processBeanDefinitions(Set<BeanDefinitionHolder> beanDefinitions) {
-        GenericBeanDefinition definition;
         for (BeanDefinitionHolder holder : beanDefinitions) {
-            definition = (GenericBeanDefinition) holder.getBeanDefinition();
+            GenericBeanDefinition definition = (GenericBeanDefinition) holder.getBeanDefinition();
             String beanClassName = definition.getBeanClassName();
-            System.out.println(beanClassName);
             definition.getPropertyValues().add("innerClassName", definition.getBeanClassName());
-            definition.setBeanClass(MapperFactoryBean.class);
+            definition.setBeanClass(VOFactoryBean.class);
         }
     }
 

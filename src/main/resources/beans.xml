@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="config" class="com.yy.vokiller.VOScannerConfigurer">
+    <bean id="config" class="com.yy.vokiller.core.VOScannerConfigurer">
         <property name="basePackage" value="com.yy.test"/>
     </bean>
 </beans>

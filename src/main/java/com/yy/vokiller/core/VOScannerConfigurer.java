@@ -1,4 +1,4 @@
-package com.yy.vokiller;
+package com.yy.vokiller.core;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -10,6 +10,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.StringUtils;
 
 
+/**
+ * @author Macbook
+ */
 public class VOScannerConfigurer implements BeanFactoryPostProcessor, ApplicationContextAware {
     private ApplicationContext applicationContext;
     private String basePackage;
@@ -18,10 +21,12 @@ public class VOScannerConfigurer implements BeanFactoryPostProcessor, Applicatio
         this.basePackage = basePackage;
     }
 
+    @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
 
+    @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         VOScanner scanner = new VOScanner((BeanDefinitionRegistry) beanFactory);
         scanner.setResourceLoader(this.applicationContext);

@@ -1,7 +1,6 @@
 package com.yy.test;
 
-import com.yy.annotation.SelectVO;
-import com.yy.vokiller.UserNameVO;
+import com.yy.vokiller.annotation.SelectVO;
 
 public interface UserVO {
 

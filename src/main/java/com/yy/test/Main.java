@@ -28,6 +28,7 @@ public class Main {
 
         ClassPathXmlApplicationContext app = new ClassPathXmlApplicationContext("beans.xml");
         UserVO userVO = (UserVO) app.getBean(UserVO.class);
-        userVO.getUserNameResponse(new User());
+        System.out.println(userVO.getUserNameResponse(new User()));
+
     }
 }

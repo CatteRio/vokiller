@@ -1,4 +1,4 @@
-package com.yy.vokiller;
+package com.yy.test;
 
 /**
  * @author Macbook

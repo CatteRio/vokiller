@@ -1,7 +1,7 @@
-package com.yy.vokiller;
+package com.yy.vokiller.simple;
 
 
-import com.yy.annotation.VoConfigure;
+import com.yy.vokiller.annotation.VoConfigure;
 import net.sf.cglib.beans.BeanGenerator;
 import net.sf.cglib.beans.BeanMap;
 
