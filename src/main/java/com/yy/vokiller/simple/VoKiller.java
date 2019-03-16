@@ -9,6 +9,9 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Macbook
+ */
 public class VoKiller {
 
     public static <T> Object getVO(Class<T> clazz, T obj, String value, Map<String, Object> properties) {

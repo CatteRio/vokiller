@@ -1,6 +1,10 @@
 package com.yy.test;
 
+import com.sun.xml.internal.messaging.saaj.packaging.mime.util.LineInputStream;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -23,11 +27,13 @@ public class Main {
 //        System.out.println(JSON.toJSONString(VoKiller.getVO(User.class, user, "response1")));
 //        System.out.println(JSON.toJSONString(VoKiller.getVO(User.class, user, "response2")));
 //        System.out.println(JSON.toJSONString(VoKiller.getVO(User.class, user, "response2", propertyMap)));
-//
 
-
+        List<String> list = new ArrayList<String>();
+        list.add("123");
+        list.add("321");
         ClassPathXmlApplicationContext app = new ClassPathXmlApplicationContext("beans.xml");
-        UserVO userVO = (UserVO) app.getBean(UserVO.class);
+        UserVOAssembler userVO = (UserVOAssembler) app.getBean(UserVOAssembler.class);
+        System.out.println(userVO.getUserResponse(new User(), 1, list, list));
         System.out.println(userVO.getUserNameResponse(new User()));
 
     }

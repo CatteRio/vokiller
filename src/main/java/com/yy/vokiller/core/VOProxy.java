@@ -18,10 +18,11 @@ public class VOProxy implements InvocationHandler {
             return method.invoke(proxy,args);
         }
         SelectVO selectVO =  method.getDeclaredAnnotation(SelectVO.class);
+        Class<?> returnType = method.getReturnType();
+        if(returnType == Object.class){
+            return "Object";
+        }
         String vql = selectVO.vql();
-        System.out.println(vql.split(","));
-
-        System.out.println("gogogogogogo");
         return null;
     }
 }

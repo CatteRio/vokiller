@@ -8,5 +8,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface VOParam {
-    String value();
+
+    String[] include() default {};
+
+    String[] exclude() default {};
+
+    String value() default "";
 }
