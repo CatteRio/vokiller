@@ -41,7 +41,8 @@ public class Main {
         user.setName("yuanyang");
         user.setSex("nan");
 //        System.out.println(userVO.getUserResponse(new User(), 1, list, list));
-        System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user, "123")));
+        System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user, "123","234")));
         System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user)));
+        System.out.println(JSON.toJSONString(userVO.getUserNameResponse(user)));
     }
 }

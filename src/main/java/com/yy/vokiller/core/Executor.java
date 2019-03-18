@@ -1,9 +1,7 @@
 package com.yy.vokiller.core;
 
 import com.yy.vokiller.annotation.VOParam;
-import com.yy.vokiller.exception.ArgNameNotSpecifyException;
-import com.yy.vokiller.exception.PropertyNotFindException;
-import com.yy.vokiller.exception.StatusException;
+import com.yy.vokiller.exception.*;
 import com.yy.vokiller.paser.Structure;
 import com.yy.vokiller.utils.AnnotationUtils;
 import net.sf.cglib.beans.BeanMap;
@@ -13,7 +11,9 @@ import org.springframework.context.annotation.Bean;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,18 +22,22 @@ import java.util.Map;
  */
 public class Executor {
     private Structure structure;
+    private Method method;
 
-    public Executor(Structure structure) {
+    public Executor(Structure structure, Method method) {
         this.structure = structure;
+        this.method = method;
     }
 
-    public Object execute(Method method, Object[] args) throws StatusException {
-        Map<String, Object> argsValueMap = getAllArgsValueMap(method, args);
+    public Object execute(Object[] args) throws StatusException {
+        Object[] filterArgs = filterArgs(args);
+        Map<String, Object> argsValueMap = getAllArgsValueMap(filterArgs);
         Object obj = execute(this.structure, argsValueMap);
         return obj;
     }
 
     private Object execute(Structure structure, Map<String, Object> argsValueMap) throws StatusException {
+        //由bean generator生成
         if (structure.getType() == null) {
             Object returnJob = structure.getGenerator().create();
             BeanMap beanMap = BeanMap.create(returnJob);
@@ -47,22 +51,32 @@ public class Executor {
                     beanMap.put(fieldName, value);
                 }
             }
-//            beanMap.putAll(argsValueMap);
-
             if (structureMap != null) {
                 for (String fieldName : structureMap.keySet()) {
                     Structure subStructure = structureMap.get(fieldName);
-                    Map<String, Object> newArgsValueMap = getAllArgsValueMap(null, new Object[]{argsValueMap.get(fieldName)});
+                    Map<String, Object> newArgsValueMap = getAllArgsValueMap(new Object[]{argsValueMap.get(fieldName)});
                     beanMap.put(fieldName, execute(subStructure, newArgsValueMap));
                 }
             }
             return returnJob;
-        } else {
-            return null;
+        }
+        //由class对象生成
+        else {
+            Class clazz = structure.getType();
+            try {
+                Object returnJob = clazz.newInstance();
+                for (Field field : clazz.getDeclaredFields()) {
+                    field.setAccessible(true);
+                    field.set(returnJob, argsValueMap.get(field.getName()));
+                }
+                return returnJob;
+            } catch (Exception e) {
+                throw new CreateBeanException("error while create bean :" + clazz);
+            }
         }
     }
 
-    private Map<String, Object> getAllArgsValueMap(Method method, Object[] args) throws StatusException {
+    private Map<String, Object> getAllArgsValueMap(Object[] args) throws StatusException {
         Map<String, Object> argsValueMap = new HashMap<>(16);
         if (args.length == 1) {
             Object arg = args[0];
@@ -76,7 +90,7 @@ public class Executor {
                 }
             }
         } else {
-            Annotation[][] annotations = method.getParameterAnnotations();
+            Annotation[][] annotations = this.method.getParameterAnnotations();
             for (int i = 0; i < args.length; i++) {
                 Object arg = args[i];
                 VOParam voParam = AnnotationUtils.getParameterAnnotation(annotations[i], VOParam.class);
@@ -90,6 +104,29 @@ public class Executor {
         return argsValueMap;
     }
 
+
+    private Object[] filterArgs(final Object[] args) throws StatusException {
+        Object[] newArgs = new Object[args.length];
+        Annotation[][] annotations = this.method.getParameterAnnotations();
+        for (int i = 0; i < args.length; i++) {
+            Object arg = args[i];
+            VOParam voParam = AnnotationUtils.getParameterAnnotation(annotations[i], VOParam.class);
+            List<String> includeArgNames = Arrays.asList(voParam.include());
+            List<String> excludeArgNames = Arrays.asList(voParam.exclude());
+            if (!includeArgNames.isEmpty() && !excludeArgNames.isEmpty()) {
+                throw new LogicErrorException();
+            }
+//            if(!includeArgNames.isEmpty() && ){
+//
+//            }else if()
+
+
+
+
+        }
+
+        return null;
+    }
 
     public Structure getStructure() {
         return structure;
