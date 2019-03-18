@@ -35,6 +35,6 @@ public class Main {
         UserVOAssembler userVO = (UserVOAssembler) app.getBean(UserVOAssembler.class);
         System.out.println(userVO.getUserResponse(new User(), 1, list, list));
         System.out.println(userVO.getUserNameResponse(new User()));
-
+        System.out.println(userVO.getUserNameResponse(new User()));
     }
 }

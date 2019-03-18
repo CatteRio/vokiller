@@ -9,6 +9,7 @@ public interface UserVOAssembler {
 
     /**
      * 获取对象返回值
+     *
      * @param user
      * @param age
      * @param permission
