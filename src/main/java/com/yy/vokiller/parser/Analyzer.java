@@ -1,6 +1,4 @@
-package com.yy.vokiller.paser;
-
-import org.springframework.util.CollectionUtils;
+package com.yy.vokiller.parser;
 
 import java.util.ArrayList;
 import java.util.List;

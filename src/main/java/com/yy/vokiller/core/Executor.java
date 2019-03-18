@@ -2,12 +2,10 @@ package com.yy.vokiller.core;
 
 import com.yy.vokiller.annotation.VOParam;
 import com.yy.vokiller.exception.*;
-import com.yy.vokiller.paser.Structure;
+import com.yy.vokiller.parser.Structure;
 import com.yy.vokiller.utils.AnnotationUtils;
 import com.yy.vokiller.utils.BeanUtils;
 import net.sf.cglib.beans.BeanMap;
-import org.omg.CORBA.OBJECT_NOT_EXIST;
-import org.springframework.context.annotation.Bean;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

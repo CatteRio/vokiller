@@ -1,8 +1,7 @@
-package com.yy.vokiller.paser;
+package com.yy.vokiller.parser;
 
 import net.sf.cglib.beans.BeanGenerator;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 

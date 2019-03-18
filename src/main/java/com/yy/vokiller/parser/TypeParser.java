@@ -1,4 +1,4 @@
-package com.yy.vokiller.paser;
+package com.yy.vokiller.parser;
 
 import java.util.ArrayList;
 import java.util.List;

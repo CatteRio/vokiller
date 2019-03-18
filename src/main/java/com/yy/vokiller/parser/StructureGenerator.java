@@ -1,4 +1,4 @@
-package com.yy.vokiller.paser;
+package com.yy.vokiller.parser;
 
 import com.yy.vokiller.annotation.VOParam;
 import com.yy.vokiller.exception.*;
