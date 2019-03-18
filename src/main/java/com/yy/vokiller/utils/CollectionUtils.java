@@ -1,4 +1,4 @@
-package com.yy.vokiller;
+package com.yy.vokiller.utils;
 
 import java.util.Collection;
 

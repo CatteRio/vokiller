@@ -13,8 +13,14 @@ import java.util.Map;
 public class Structure {
     private Class type;
 
+    private BeanGenerator generator;
 
-    private List<Field> fieldList;
+    private List<String> fieldList;
+
+    /**
+     * 某些属性为自定义bean
+     */
+    private Map<String, Structure> structureMap;
 
     public Class getType() {
         return type;
@@ -24,15 +30,27 @@ public class Structure {
         this.type = type;
     }
 
-    public List<Field> getFieldList() {
+    public BeanGenerator getGenerator() {
+        return generator;
+    }
+
+    public void setGenerator(BeanGenerator generator) {
+        this.generator = generator;
+    }
+
+    public List<String> getFieldList() {
         return fieldList;
     }
 
-    public void setFieldList(List<Field> fieldList) {
+    public void setFieldList(List<String> fieldList) {
         this.fieldList = fieldList;
     }
 
+    public Map<String, Structure> getStructureMap() {
+        return structureMap;
+    }
 
-    private BeanGenerator generator;
-
+    public void setStructureMap(Map<String, Structure> structureMap) {
+        this.structureMap = structureMap;
+    }
 }

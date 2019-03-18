@@ -28,7 +28,7 @@ public class VOHandler {
 
     public Object invoke(Method method, Object[] args) throws StatusException {
         if (cachedMap.containsKey(method)) {
-            return cachedMap.get(method).execute(args);
+            return cachedMap.get(method).execute(method, args);
         }
         Class<?> returnType = method.getReturnType();
         List<Token> tokenList = null;
@@ -41,7 +41,7 @@ public class VOHandler {
         Structure structure = StructureGenerator.generate(tokenList, returnType, method, args);
         Executor executor = new Executor(structure);
         cachedMap.put(method, executor);
-        return executor.execute(args);
+        return executor.execute(method, args);
     }
 
 }

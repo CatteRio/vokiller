@@ -1,19 +1,14 @@
 package com.yy.vokiller.paser;
 
 import com.yy.vokiller.annotation.VOParam;
-import com.yy.vokiller.exception.ArgumentNotNullException;
-import com.yy.vokiller.exception.LogicErrorException;
-import com.yy.vokiller.exception.PropertyNotFindException;
-import com.yy.vokiller.exception.StatusException;
+import com.yy.vokiller.exception.*;
+import com.yy.vokiller.utils.AnnotationUtils;
 import net.sf.cglib.beans.BeanGenerator;
-import net.sf.cglib.beans.BeanMap;
-import net.sf.cglib.proxy.Enhancer;
 
-import java.awt.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -24,38 +19,38 @@ public class StructureGenerator {
 
 
     public static Structure generate(List<Token> tokenList, Class type, Method method, Object[] args) throws StatusException {
-        Structure structure = new Structure();
+        Structure structure = null;
         List<Field> fieldList;
         Class clazz = null;
         if (type != null && type != Object.class) {
-            clazz = type;
+            structure = new Structure();
+            structure.setType(type);
         } else if (tokenList != null && tokenList.size() != 0) {
             BeanGenerator generator = new BeanGenerator();
-            clazz = generateClass(generator, tokenList, method);
+            structure = generateClass(generator, tokenList, method);
         } else if (args != null) {
-            clazz = generateClass(args, method);
+            structure = generateClass(args, method);
         } else {
             throw new ArgumentNotNullException();
         }
-        fieldList = Arrays.asList(clazz.getDeclaredFields());
-        structure.setFieldList(fieldList);
-        structure.setType(clazz);
         return structure;
     }
 
 
-    private static Class generateClass(BeanGenerator generator, List<Token> tokenList, Method method) {
+    private static Structure generateClass(BeanGenerator generator, List<Token> tokenList, Method method) {
 
         return null;
     }
 
-    private static Class generateClass(Object[] args, Method method) throws StatusException {
+    private static Structure generateClass(Object[] args, Method method) throws StatusException {
 
+        Structure structure = new Structure();
+        List<String> fieldList = new ArrayList<>();
         Annotation[][] annotations = method.getParameterAnnotations();
         //单个参数无需创建一级对象
         if (args.length == 1) {
             Object arg = args[0];
-            VOParam voParam = getParameterAnnotation(annotations[0], VOParam.class);
+            VOParam voParam = AnnotationUtils.getParameterAnnotation(annotations[0], VOParam.class);
             List<String> includeArgNames = Arrays.asList(voParam.include());
             List<String> excludeArgNames = Arrays.asList(voParam.exclude());
             //都不为空抛异常
@@ -64,19 +59,24 @@ public class StructureGenerator {
             }
             //都为空直接返回对象类
             else if (includeArgNames.isEmpty() && excludeArgNames.isEmpty()) {
-                return arg.getClass();
+                for (Field field : arg.getClass().getDeclaredFields()) {
+                    fieldList.add(field.getName());
+                }
+                structure.setType(arg.getClass());
+                structure.setFieldList(fieldList);
+                return structure;
             } else {
                 return generateSingleClass(arg, includeArgNames, excludeArgNames);
             }
         }
-        //
         BeanGenerator generator = new BeanGenerator();
+        Map<String, Structure> structureMap = new HashMap<>(16);
         for (int i = 0; i < args.length; i++) {
             Object arg = args[i];
-            VOParam voParam = arg.getClass().getAnnotation(VOParam.class);
+            VOParam voParam = AnnotationUtils.getParameterAnnotation(annotations[i], VOParam.class);
             String fieldName = voParam.value();
             if (fieldName.isEmpty()) {
-                throw new PropertyNotFindException(fieldName);
+                throw new ArgNameNotSpecifyException();
             }
             List<String> includeArgNames = Arrays.asList(voParam.include());
             List<String> excludeArgNames = Arrays.asList(voParam.exclude());
@@ -85,37 +85,36 @@ public class StructureGenerator {
             } else if (includeArgNames.isEmpty() && excludeArgNames.isEmpty()) {
                 generator.addProperty(fieldName, arg.getClass());
             } else {
-                generator.addProperty(fieldName, generateSingleClass(arg, includeArgNames, excludeArgNames));
+                Structure singleStructure = generateSingleClass(arg, includeArgNames, excludeArgNames);
+                structureMap.put(fieldName, singleStructure);
+                generator.addProperty(fieldName, (Class) singleStructure.getGenerator().createClass());
             }
+            fieldList.add(fieldName);
         }
-        return generator.create().getClass();
+        structure.setGenerator(generator);
+        structure.setFieldList(fieldList);
+        structure.setStructureMap(structureMap);
+        return structure;
     }
 
-    public static Class generateSingleClass(Object obj, List<String> includeArgNames, List<String> excludeArgNames) {
+    public static Structure generateSingleClass(Object obj, List<String> includeArgNames, List<String> excludeArgNames) {
+        Structure structure = new Structure();
+        List<String> fieldNameList = new ArrayList<>(16);
         Field[] fields = obj.getClass().getDeclaredFields();
         BeanGenerator singleGenerator = new BeanGenerator();
         for (int i = 0; i < fields.length; i++) {
             Field singleField = fields[i];
             String fieldName = singleField.getName();
-            if (!includeArgNames.isEmpty() && includeArgNames.contains(fieldName)) {
-                singleGenerator.addProperty(fieldName, singleField.getType());
-            } else if (!excludeArgNames.isEmpty() && !excludeArgNames.contains(fieldName)) {
+            if (!includeArgNames.isEmpty() && includeArgNames.contains(fieldName)
+                    || !excludeArgNames.isEmpty() && !excludeArgNames.contains(fieldName)) {
+                fieldNameList.add(fieldName);
                 singleGenerator.addProperty(fieldName, singleField.getType());
             }
         }
-        Object ssss = singleGenerator.create();
-        BeanMap beanMap = BeanMap.create(ssss);
-        beanMap.put("name","123456");
-        return singleGenerator.create().getClass();
+        structure.setGenerator(singleGenerator);
+        structure.setFieldList(fieldNameList);
+        return structure;
     }
 
 
-    public static <A extends Annotation> A getParameterAnnotation(Annotation[] annotations, Class<A> annotationType) {
-        for (Annotation annotation : annotations) {
-            if (annotation.annotationType() == annotationType) {
-                return (A) annotation;
-            }
-        }
-        return null;
-    }
 }
