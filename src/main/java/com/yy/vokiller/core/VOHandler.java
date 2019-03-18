@@ -1,6 +1,8 @@
 package com.yy.vokiller.core;
 
 import com.yy.vokiller.annotation.SelectVO;
+import com.yy.vokiller.exception.ArgumentNotNullException;
+import com.yy.vokiller.exception.StatusException;
 import com.yy.vokiller.paser.Analyzer;
 import com.yy.vokiller.paser.Structure;
 import com.yy.vokiller.paser.StructureGenerator;
@@ -19,10 +21,12 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class VOHandler {
     private Map<Method, Executor> cachedMap;
+
     public VOHandler() {
         this.cachedMap = new ConcurrentHashMap<>(16);
     }
-    public Object invoke(Method method, Object[] args) {
+
+    public Object invoke(Method method, Object[] args) throws StatusException {
         if (cachedMap.containsKey(method)) {
             return cachedMap.get(method).execute(args);
         }
@@ -34,7 +38,7 @@ public class VOHandler {
             Analyzer analyzer = new Analyzer(vql);
             tokenList = analyzer.analyze();
         }
-        Structure structure = StructureGenerator.generate(tokenList, returnType, args);
+        Structure structure = StructureGenerator.generate(tokenList, returnType, method, args);
         Executor executor = new Executor(structure);
         cachedMap.put(method, executor);
         return executor.execute(args);
