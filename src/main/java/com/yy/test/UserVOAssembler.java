@@ -29,7 +29,7 @@ public interface UserVOAssembler {
      * @return
      */
     @SelectVO()
-    Object getUserNameObjectVO(@VOParam(value = "user", include = {"name"}) User user,
+    Object getUserNameObjectVO(@VOParam(value = "userInfo", include = {"name"}) User user,
                                @VOParam("height") String height,
                                @VOParam("weight") String weight);
 

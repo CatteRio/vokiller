@@ -40,9 +40,21 @@ public class Main {
         user.setId(1);
         user.setName("yuanyang");
         user.setSex("nan");
+        Long start  = System.currentTimeMillis();
 //        System.out.println(userVO.getUserResponse(new User(), 1, list, list));
         System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user, "123","234")));
         System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user)));
+        user.setName("huanghuang");
         System.out.println(JSON.toJSONString(userVO.getUserNameResponse(user)));
+        System.out.println(System.currentTimeMillis() - start);
+        start  = System.currentTimeMillis();
+
+        for (int i = 0; i < 10000; i++) {
+            System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user, "123","234")));
+            System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user)));
+            user.setName("huanghuang");
+            System.out.println(JSON.toJSONString(userVO.getUserNameResponse(user)));
+        }
+        System.out.println(System.currentTimeMillis() - start);
     }
 }

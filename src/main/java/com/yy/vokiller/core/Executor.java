@@ -4,6 +4,7 @@ import com.yy.vokiller.annotation.VOParam;
 import com.yy.vokiller.exception.*;
 import com.yy.vokiller.paser.Structure;
 import com.yy.vokiller.utils.AnnotationUtils;
+import com.yy.vokiller.utils.BeanUtils;
 import net.sf.cglib.beans.BeanMap;
 import org.omg.CORBA.OBJECT_NOT_EXIST;
 import org.springframework.context.annotation.Bean;
@@ -110,22 +111,34 @@ public class Executor {
         Annotation[][] annotations = this.method.getParameterAnnotations();
         for (int i = 0; i < args.length; i++) {
             Object arg = args[i];
+            Object newArg = null;
+            try {
+                newArg = BeanUtils.deepClone(arg);
+            } catch (Exception e) {
+                throw new UnknownException(e);
+            }
             VOParam voParam = AnnotationUtils.getParameterAnnotation(annotations[i], VOParam.class);
             List<String> includeArgNames = Arrays.asList(voParam.include());
             List<String> excludeArgNames = Arrays.asList(voParam.exclude());
             if (!includeArgNames.isEmpty() && !excludeArgNames.isEmpty()) {
                 throw new LogicErrorException();
             }
-//            if(!includeArgNames.isEmpty() && ){
-//
-//            }else if()
 
-
-
-
+            for (Field field : newArg.getClass().getDeclaredFields()) {
+                String fieldName = field.getName();
+                if (!includeArgNames.isEmpty() && !includeArgNames.contains(fieldName)
+                        || !excludeArgNames.isEmpty() && excludeArgNames.contains(fieldName)) {
+                    field.setAccessible(true);
+                    try {
+                        field.set(newArg, null);
+                    } catch (IllegalAccessException e) {
+                        throw new UnknownException(e);
+                    }
+                }
+            }
+            newArgs[i] = newArg;
         }
-
-        return null;
+        return newArgs;
     }
 
     public Structure getStructure() {
