@@ -1,5 +1,7 @@
 package com.yy.vokiller.paser;
 
+import org.springframework.util.CollectionUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,10 +12,8 @@ import java.util.List;
 public class Analyzer {
 
     private String content;
-    private List<Token> tokenList;
     private char[] contentArray;
     private Integer position;
-    private boolean matchingNextSeparator;
 
     /**
      * 初始化参数
@@ -31,7 +31,9 @@ public class Analyzer {
         Token token = null;
         do {
             token = this.getNextToken();
-            tokenList.add(token);
+            if (token != null) {
+                tokenList.add(token);
+            }
         } while (token != null);
         return tokenList;
     }
@@ -44,8 +46,10 @@ public class Analyzer {
         String fieldName = null;
         String fieldValue = null;
         String subField = null;
-        boolean stopTag = false;
+        boolean matchingNextSeparator = false;
         boolean equalsTag = false;
+        boolean quatoTag = false;
+        boolean stopTag = false;
         StringBuilder wordBuilder = new StringBuilder();
         StringBuilder tmpBuilder = new StringBuilder();
         while (!stopTag) {
@@ -64,7 +68,7 @@ public class Analyzer {
             switch (letter) {
                 case '=':
                     //如果在括号里面则忽略，只关心括号外的结构
-                    if (this.matchingNextSeparator) {
+                    if (matchingNextSeparator) {
                         tmpBuilder.append(letter);
                     }
                     //如果是在括号外的等号则认为当前token是有指定赋值的
@@ -74,7 +78,7 @@ public class Analyzer {
                         //这种情况下fieldName已经被提取
                         //在前一步提取subField的时候已经将tmpBuilder清空
                         //因此会长度为0无需在做处理
-                        if (tmpBuilder.length() != 0) {
+                        if (!quatoTag) {
                             fieldName = tmpBuilder.toString();
                             tmpBuilder.setLength(0);
                         }
@@ -85,23 +89,24 @@ public class Analyzer {
                     break;
                 case '(':
                     //如果不在寻找右括号，则赋值给filedName
-                    if (!this.matchingNextSeparator) {
+                    if (!matchingNextSeparator) {
                         fieldName = tmpBuilder.toString();
                         tmpBuilder.setLength(0);
                     }
-                    this.matchingNextSeparator = true;
+                    matchingNextSeparator = true;
+                    quatoTag = true;
                     wordBuilder.append(letter);
                     break;
                 case ')':
                     //遇到右括号就把内容赋值给subField
                     subField = tmpBuilder.toString();
                     tmpBuilder.setLength(0);
-                    this.matchingNextSeparator = false;
+                    matchingNextSeparator = false;
                     wordBuilder.append(letter);
                     break;
                 case ',':
                     //如果不是在寻找右括号则认为一个token结束
-                    if (!this.matchingNextSeparator) {
+                    if (!matchingNextSeparator) {
                         //如果前面有遇到括号外的等号则认为有指定value
                         if (equalsTag) {
                             fieldValue = tmpBuilder.toString();
@@ -135,7 +140,6 @@ public class Analyzer {
             Analyzer analyzer = new Analyzer(token.getOriginalSubField());
             token.setSubFields(analyzer.analyze());
         }
-//        System.out.println(token);
         return token;
     }
 
@@ -152,7 +156,7 @@ public class Analyzer {
 
 
     public static void main(String[] args) {
-        String s = "user ( sex=男,age , permissionList =  permission)=9,  role ,role=18,  height = 18,weight";
+        String s = "user ( sex=男,age , permissionList =  permission) =user,  role ,role=18,  height = 18,weight";
         Analyzer analyzer = new Analyzer(s);
         List<Token> tokenList = analyzer.analyze();
         System.out.println(tokenList);
