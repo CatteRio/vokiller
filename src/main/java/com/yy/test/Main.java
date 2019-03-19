@@ -42,20 +42,15 @@ public class Main {
         user.setName("yuanyang");
         user.setSex("nan");
         user.setPermissionList(list);
-        long start =System.currentTimeMillis();
-        for (int i = 0; i < 10000; i++) {
-            System.out.println(JSON.toJSONString(userVO.getUserResponse(user, 123, list, list)));
-            System.out.println(JSON.toJSONString(userVO.getUserResponse(user, "123", 123)));
-            System.out.println(JSON.toJSONString(userVO.getUserNameResponseAll(user)));
-            System.out.println(JSON.toJSONString(userVO.getUserNameResponse(user)));
-            System.out.println(JSON.toJSONString(userVO.getUserNameObjectVOAll(user, "123", "234")));
-            System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user, "123", "234")));
-            System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user)));
-        }
-        System.out.println(System.currentTimeMillis() - start);
+//        System.out.println(JSON.toJSONString(userVO.getUserResponse(user, 123, list, list)));
+//        System.out.println(JSON.toJSONString(userVO.getUserResponse(user, "123", 123)));
+        System.out.println(JSON.toJSONString(userVO.getUserNameResponseAll(user)));
+//        System.out.println(JSON.toJSONString(userVO.getUserNameResponse(user)));
+//        System.out.println(JSON.toJSONString(userVO.getUserNameObjectVOAll(user, "123", "234")));
+//        System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user, "123", "234")));
+//        System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user)));
 
     }
-
 
 
 }
