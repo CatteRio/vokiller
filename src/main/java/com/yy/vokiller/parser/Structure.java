@@ -1,7 +1,9 @@
 package com.yy.vokiller.parser;
 
+import com.yy.vokiller.annotation.VOParam;
 import net.sf.cglib.beans.BeanGenerator;
 
+import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +18,7 @@ public class Structure {
 
     private List<String> fieldList;
 
+    private Map<VOParam, Integer/*Position*/> annoPositionMap;
     /**
      * 某些属性为自定义bean
      */
@@ -51,5 +54,23 @@ public class Structure {
 
     public void setStructureMap(Map<String, Structure> structureMap) {
         this.structureMap = structureMap;
+    }
+
+    public Map<VOParam, Integer> getAnnoPositionMap() {
+        return annoPositionMap;
+    }
+
+    public void setAnnoPositionMap(Map<VOParam, Integer> annoPositionMap) {
+        this.annoPositionMap = annoPositionMap;
+    }
+
+    public Class getActiveClassType() {
+        if (this.generator != null) {
+            return (Class) this.generator.createClass();
+        } else if (this.type != null) {
+            return this.type;
+        } else {
+            return null;
+        }
     }
 }

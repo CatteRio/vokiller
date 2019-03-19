@@ -56,9 +56,16 @@ public class Analyzer {
                 if (equalsTag) {
                     fieldValue = tmpBuilder.toString();
                     tmpBuilder.setLength(0);
-                } else {
+                }
+                //没括号没等号,还没解析完
+                else if (!quatoTag) {
                     fieldName = tmpBuilder.toString();
+                    fieldValue = fieldName;
                     tmpBuilder.setLength(0);
+                }
+                //有括号没等号,已经解析完了
+                else {
+                    fieldValue = fieldName;
                 }
                 stopTag = true;
                 break;
@@ -109,9 +116,16 @@ public class Analyzer {
                         if (equalsTag) {
                             fieldValue = tmpBuilder.toString();
                             tmpBuilder.setLength(0);
-                        } else {
+                        }
+                        //没括号没等号,还没解析完
+                        else if (!quatoTag) {
                             fieldName = tmpBuilder.toString();
+                            fieldValue = fieldName;
                             tmpBuilder.setLength(0);
+                        }
+                        //有括号没等号,已经解析完了
+                        else {
+                            fieldValue = fieldName;
                         }
                         stopTag = true;
                     }

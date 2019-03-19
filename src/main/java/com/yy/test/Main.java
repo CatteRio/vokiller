@@ -30,6 +30,7 @@ public class Main {
 //        System.out.println(JSON.toJSONString(VoKiller.getVO(User.class, user, "response2")));
 //        System.out.println(JSON.toJSONString(VoKiller.getVO(User.class, user, "response2", propertyMap)));
 
+
         List<String> list = new ArrayList<String>();
         list.add("123");
         list.add("321");
@@ -40,21 +41,21 @@ public class Main {
         user.setId(1);
         user.setName("yuanyang");
         user.setSex("nan");
-        Long start  = System.currentTimeMillis();
-//        System.out.println(userVO.getUserResponse(new User(), 1, list, list));
-        System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user, "123","234")));
-        System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user)));
-        user.setName("huanghuang");
-        System.out.println(JSON.toJSONString(userVO.getUserNameResponse(user)));
-        System.out.println(System.currentTimeMillis() - start);
-        start  = System.currentTimeMillis();
-
+        user.setPermissionList(list);
+        long start =System.currentTimeMillis();
         for (int i = 0; i < 10000; i++) {
-            System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user, "123","234")));
-            System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user)));
-            user.setName("huanghuang");
+            System.out.println(JSON.toJSONString(userVO.getUserResponse(user, 123, list, list)));
+            System.out.println(JSON.toJSONString(userVO.getUserResponse(user, "123", 123)));
+            System.out.println(JSON.toJSONString(userVO.getUserNameResponseAll(user)));
             System.out.println(JSON.toJSONString(userVO.getUserNameResponse(user)));
+            System.out.println(JSON.toJSONString(userVO.getUserNameObjectVOAll(user, "123", "234")));
+            System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user, "123", "234")));
+            System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user)));
         }
         System.out.println(System.currentTimeMillis() - start);
+
     }
+
+
+
 }
