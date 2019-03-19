@@ -64,24 +64,26 @@ public class Executor {
         }
         //由class对象生成
         else {
-            //如果是基本对象 可以直接赋值
-            //如果参数列表参数大于1说明有错误
-            if (voParamIntegerMap.keySet().size() > 1) {
-                throw new TooManyValuesException(structure.getType().toString());
-            }
-
             Class clazzType = structure.getType();
             Object returnJob = null;
-            Object arg = null;
-            for (Map.Entry<VOParam, Integer> voParam : voParamIntegerMap.entrySet()) {
-                arg = args[voParam.getValue()];
-                break;
+            if(voParamIntegerMap.size() == 1 ){
+                Object arg = null;
+                for (Map.Entry<VOParam, Integer> voParam : voParamIntegerMap.entrySet()) {
+                    arg = args[voParam.getValue()];
+                    break;
+                }
+                //如果参数是其子类或者子接口
+                if (clazzType.isAssignableFrom(arg.getClass())) {
+                    returnJob = arg;
+                    return returnJob;
+                }
             }
-
-            //如果参数是其子类或者子接口
-            if (clazzType.isAssignableFrom(arg.getClass())) {
-                returnJob = arg;
-            } else if (!clazzType.isInterface()) {
+//            //如果是基本对象 可以直接赋值
+//            //如果参数列表参数大于1说明有错误
+//            if (voParamIntegerMap.keySet().size() > 1) {
+//                throw new TooManyValuesException(structure.getType().toString());
+//            }
+            if (!clazzType.isInterface()) {
                 try {
                     Object obj = clazzType.newInstance();
                     for (Field field : clazzType.getDeclaredFields()) {
@@ -93,7 +95,7 @@ public class Executor {
                     throw new UnknownException(e);
                 }
             } else {
-                throw new ClassTypeCastException(clazzType, arg.getClass());
+                throw new ClassTypeCastException(clazzType);
             }
             return returnJob;
         }

@@ -6,7 +6,7 @@ package com.yy.vokiller.exception;
  */
 public class ClassTypeCastException extends StatusException {
 
-    public ClassTypeCastException(Class targetType, Class sourceType) {
-        super("can not cast " + sourceType.getName() + " to " + targetType.getName());
+    public ClassTypeCastException(Class targetType) {
+        super("can not generate " + targetType.getName());
     }
 }
