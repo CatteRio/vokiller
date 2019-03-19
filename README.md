@@ -1,15 +1,15 @@
 # vokiller
-##介绍
+## 介绍
 在java接口开发中需要根据前端需求，对不同接口需要增设不同类型的VO类，十分繁琐，代码累赘，本项目为了解决这个问题参考了mybatis的实现，采用了动态代理的方式来解决代码冗余，可以使VO类最终达到用注解配置，方便代码量，易于代码维护。
-##如何使用
-####1.Spring集成
+## 如何使用
+#### 1.Spring集成
 引入项目后集成Spring框架，配置扫描包路径，该包下存放动态VO接口类
 ```html
 <bean id="voScannerConfigurer" class="com.yy.vokiller.core.VOScannerConfigurer">
         <property name="basePackage" value="com.yy.test"/>
 </bean>
 ```
-####2.添加动态接口类
+#### 2.添加动态接口类
 根据接口需求添加不同的接口方法，采用注解的方式声明接口变量参数值等信息，使用注解设置vql可以自定义结构，具体语法参看下例，基本涵盖所有语法。
 ```java
 package com.yy.test;
@@ -56,7 +56,7 @@ public interface UserVOAssembler {
 }
 
 ```
-####3.使用
+#### 3.使用
 根据需求调用不用的接口方法，在代码中使用即可。
 ```java
         ClassPathXmlApplicationContext app = new ClassPathXmlApplicationContext("beans.xml");
@@ -89,7 +89,7 @@ public interface UserVOAssembler {
 {"name":"yuanyang"}
 ```
 
-##后续问题
+## 后续问题
 在分布式应用中还需要解决序列化问题，待以后再来处理
 
 
