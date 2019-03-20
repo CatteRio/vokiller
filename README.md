@@ -39,6 +39,7 @@ public interface UserVOAssembler {
     Object getUserResponse(@VOParam(value = "user", exclude = {"name"}) User user,
                            @VOParam("ss") String sex,
                            @VOParam("age") Integer age);
+
     @SelectVO()
     Object getUserNameObjectVO(@VOParam(value = "userInfo", exclude = {"name"}) User user,
                                @VOParam("height") String height,
@@ -61,7 +62,12 @@ public interface UserVOAssembler {
     @SelectVO()
     UserNameVO getUserNameResponseAll(User user);
 
+
+    @SelectVO()
+    Object getUserNameResponseAllObject(User user);
+
 }
+
 
 ```
 #### 3.使用
@@ -85,16 +91,18 @@ public interface UserVOAssembler {
         System.out.println(JSON.toJSONString(userVO.getUserNameObjectVOAll(user, "123", "234")));
         System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user, "123", "234")));
         System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user)));
+        System.out.println(JSON.toJSONString(userVO.getUserNameResponseAllObject(user)));
 ```
 输出示例
 ```json
-{"role":["123","321"],"user":{"age":123,"birthday":1552975840619,"id":1,"permissionList":["123","321"],"sex":123}}
-{"age":123,"birthday":1552975840619,"id":1,"permissionList":["123","321"],"sex":"123"}
+{"role":["123","321"],"user":{"age":123,"birthday":1553065635955,"id":1,"permissionList":["123","321"],"sex":123}}
+{"age":123,"birthday":1553065635955,"id":1,"permissionList":["123","321"],"sex":"123"}
 {"name":"yuanyang","sex":"nan"}
 {"name":"yuanyang"}
-{"height":"123","userInfo":{"birthday":1552975840619,"id":1,"name":"yuanyang","permissionList":["123","321"],"sex":"nan"},"weight":"234"}
-{"height":"123","userInfo":{"birthday":1552975840619,"id":1,"permissionList":["123","321"],"sex":"nan"},"weight":"234"}
+{"height":"123","userInfo":{"birthday":1553065635955,"id":1,"name":"yuanyang","permissionList":["123","321"],"sex":"nan"},"weight":"234"}
+{"height":"123","userInfo":{"birthday":1553065635955,"id":1,"permissionList":["123","321"],"sex":"nan"},"weight":"234"}
 {"name":"yuanyang"}
+{"birthday":1553065635955,"id":1,"name":"yuanyang","permissionList":["123","321"],"sex":"nan"}
 ```
 
 ## 后续问题
