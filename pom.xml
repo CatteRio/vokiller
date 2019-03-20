@@ -7,6 +7,8 @@
     <groupId>com.yy</groupId>
     <artifactId>vokiller</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>com.yy.vokiller</name>
     <build>
         <plugins>
             <plugin>
@@ -19,10 +21,6 @@
             </plugin>
         </plugins>
     </build>
-    <packaging>jar</packaging>
-
-    <name>com.yy.vokiller</name>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
