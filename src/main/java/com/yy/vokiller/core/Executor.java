@@ -3,6 +3,7 @@ package com.yy.vokiller.core;
 import com.yy.vokiller.annotation.VOParam;
 import com.yy.vokiller.exception.*;
 import com.yy.vokiller.parser.Structure;
+import com.yy.vokiller.utils.AnnotationUtils;
 import com.yy.vokiller.utils.CollectionUtils;
 import net.sf.cglib.beans.BeanMap;
 
@@ -66,7 +67,7 @@ public class Executor {
         else {
             Class clazzType = structure.getType();
             Object returnJob = null;
-            if(voParamIntegerMap.size() == 1 ){
+            if (voParamIntegerMap.size() == 1) {
                 Object arg = null;
                 for (Map.Entry<VOParam, Integer> voParam : voParamIntegerMap.entrySet()) {
                     arg = args[voParam.getValue()];
@@ -88,10 +89,10 @@ public class Executor {
                     Object obj = clazzType.newInstance();
                     for (Field field : clazzType.getDeclaredFields()) {
                         field.setAccessible(true);
-                        field.set(obj,argsValueMap.get(field.getName()));
+                        field.set(obj, argsValueMap.get(field.getName()));
                     }
                     returnJob = obj;
-                }catch (Exception e){
+                } catch (Exception e) {
                     throw new UnknownException(e);
                 }
             } else {
@@ -119,8 +120,8 @@ public class Executor {
                     }
                 }
             } else {
-                List<String> includeArgNames = Arrays.asList(voParam.include());
-                List<String> excludeArgNames = Arrays.asList(voParam.exclude());
+                List<String> includeArgNames = AnnotationUtils.getIncludeArgNames(voParam);
+                List<String> excludeArgNames = AnnotationUtils.getExcludeArgNames(voParam);
                 if (!includeArgNames.isEmpty() && !excludeArgNames.isEmpty()) {
                     throw new LogicErrorException();
                 } else if (includeArgNames.isEmpty() && excludeArgNames.isEmpty()) {

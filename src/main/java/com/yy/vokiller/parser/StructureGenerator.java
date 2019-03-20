@@ -76,8 +76,8 @@ public class StructureGenerator {
             VOParam voParam = entry.getKey();
             Class clazz = entry.getValue();
             Integer position = ((AnnotationEntry) entry).getPosition();
-            List<String> includeArgNames = Arrays.asList(voParam.include());
-            List<String> excludeArgNames = Arrays.asList(voParam.exclude());
+            List<String> includeArgNames = AnnotationUtils.getIncludeArgNames(voParam);
+            List<String> excludeArgNames = AnnotationUtils.getExcludeArgNames(voParam);
 
             //都不为空抛异常
             if (!includeArgNames.isEmpty() && !excludeArgNames.isEmpty()) {
@@ -151,8 +151,8 @@ public class StructureGenerator {
         if (args.length == 1) {
             Object arg = args[0];
             VOParam voParam = AnnotationUtils.getParameterAnnotation(annotations[0], VOParam.class);
-            List<String> includeArgNames = Arrays.asList(voParam.include());
-            List<String> excludeArgNames = Arrays.asList(voParam.exclude());
+            List<String> includeArgNames = AnnotationUtils.getIncludeArgNames(voParam);
+            List<String> excludeArgNames = AnnotationUtils.getExcludeArgNames(voParam);
             //都不为空抛异常
             if (!includeArgNames.isEmpty() && !excludeArgNames.isEmpty()) {
                 throw new LogicErrorException();
@@ -183,8 +183,9 @@ public class StructureGenerator {
             if (fieldName.isEmpty()) {
                 throw new ArgNameNotSpecifyException();
             }
-            List<String> includeArgNames = Arrays.asList(voParam.include());
-            List<String> excludeArgNames = Arrays.asList(voParam.exclude());
+
+            List<String> includeArgNames = AnnotationUtils.getIncludeArgNames(voParam);
+            List<String> excludeArgNames = AnnotationUtils.getExcludeArgNames(voParam);
             if (!includeArgNames.isEmpty() && !excludeArgNames.isEmpty()) {
                 throw new LogicErrorException();
             } else if (includeArgNames.isEmpty() && excludeArgNames.isEmpty()) {

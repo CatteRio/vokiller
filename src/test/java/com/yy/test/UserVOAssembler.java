@@ -17,6 +17,7 @@ public interface UserVOAssembler {
     Object getUserResponse(@VOParam(value = "user", exclude = {"name"}) User user,
                            @VOParam("ss") String sex,
                            @VOParam("age") Integer age);
+
     @SelectVO()
     Object getUserNameObjectVO(@VOParam(value = "userInfo", exclude = {"name"}) User user,
                                @VOParam("height") String height,
@@ -38,5 +39,9 @@ public interface UserVOAssembler {
 
     @SelectVO()
     UserNameVO getUserNameResponseAll(User user);
+
+
+    @SelectVO()
+    Object getUserNameResponseAllObject(User user);
 
 }

@@ -48,6 +48,8 @@ public class Main {
         System.out.println(JSON.toJSONString(userVO.getUserNameObjectVOAll(user, "123", "234")));
         System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user, "123", "234")));
         System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user)));
+        System.out.println(JSON.toJSONString(userVO.getUserNameResponseAllObject(user)));
+
 
     }
 

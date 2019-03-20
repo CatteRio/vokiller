@@ -3,6 +3,19 @@
 在java接口开发中需要根据前端需求，对不同接口需要增设不同类型的VO类，十分繁琐，代码累赘，本项目为了解决这个问题参考了mybatis的实现，采用了动态代理的方式来解决代码冗余，可以使VO类最终达到用注解配置，方便代码量，易于代码维护。
 ## 如何使用
 #### 1.Spring集成
+添加maven依赖项
+```html
+<dependency>
+    <groupId>cglib</groupId>
+    <artifactId>cglib</artifactId>
+    <version>3.2.10</version>
+</dependency>
+<dependency>
+    <groupId>com.github.kyrotiko</groupId>
+    <artifactId>vokiller</artifactId>
+    <version>${version}</version>
+</dependency>
+```
 引入项目后集成Spring框架，配置扫描包路径，该包下存放动态VO接口类
 ```html
 <bean id="voScannerConfigurer" class="com.yy.vokiller.core.VOScannerConfigurer">

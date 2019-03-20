@@ -8,10 +8,7 @@ import com.yy.vokiller.exception.StatusException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author yuanyang(417168602 @ qq.com)
@@ -78,5 +75,22 @@ public class AnnotationUtils {
             }
         }
         return fieldNameMetaDataMap;
+    }
+
+
+    public static List<String> getIncludeArgNames(VOParam voParam) {
+        if (voParam == null) {
+            return new ArrayList<>(16);
+        } else {
+            return Arrays.asList(voParam.include());
+        }
+    }
+
+    public static List<String> getExcludeArgNames(VOParam voParam) {
+        if (voParam == null) {
+            return new ArrayList<>(16);
+        } else {
+            return Arrays.asList(voParam.exclude());
+        }
     }
 }

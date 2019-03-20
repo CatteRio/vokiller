@@ -9,28 +9,30 @@ import java.lang.reflect.Proxy;
  * @date: 2019-03-15 20:01
  **/
 public class VOFactoryBean<T> implements FactoryBean<T> {
-    private String innerClassName;
-
-    public void setInnerClassName(String innerClassName) {
-        this.innerClassName = innerClassName;
+    private Class innerClassName;
+    public VOFactoryBean(Class<T> mapperInterface) {
+        this.innerClassName = mapperInterface;
     }
+//    public void setInnerClassName(String innerClassName) {
+//        this.innerClassName = innerClassName;
+//    }
 
     private VOProxy mapperProxy = new VOProxy();
 
     @Override
     public T getObject() throws Exception {
-        Class innerClass = Class.forName(innerClassName);
-        return (T) Proxy.newProxyInstance(innerClass.getClassLoader(), new Class[]{innerClass}, mapperProxy);
+        //Class innerClass = Class.forName(innerClassName);
+        return (T) Proxy.newProxyInstance(innerClassName.getClassLoader(), new Class[]{innerClassName}, mapperProxy);
     }
 
     @Override
     public Class<?> getObjectType() {
-        try {
-            return Class.forName(innerClassName);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
+//        try {
+//            return Class.forName(innerClassName);
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+        return innerClassName;
     }
 
     @Override
