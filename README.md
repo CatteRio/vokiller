@@ -6,11 +6,6 @@
 添加maven依赖项
 ```html
 <dependency>
-    <groupId>cglib</groupId>
-    <artifactId>cglib</artifactId>
-    <version>3.2.10</version>
-</dependency>
-<dependency>
     <groupId>com.github.kyrotiko</groupId>
     <artifactId>vokiller</artifactId>
     <version>${version}</version>

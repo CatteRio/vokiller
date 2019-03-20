@@ -53,12 +53,6 @@
             <artifactId>cglib</artifactId>
             <version>3.2.10</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>27.1-jre</version>
-        </dependency>
     </dependencies>
 
 
