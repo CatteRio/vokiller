@@ -81,14 +81,11 @@ public class Analyzer {
                     else {
                         //判断一种情况就是user(sex=sex)=user1
                         //这种情况下fieldName已经被提取
-                        //在前一步提取subField的时候已经将tmpBuilder清空
-                        //因此会长度为0无需在做处理
                         if (!quatoTag) {
                             fieldName = tmpBuilder.toString();
                             tmpBuilder.setLength(0);
                         }
                         equalsTag = true;
-
                     }
                     wordBuilder.append(letter);
                     break;
@@ -141,7 +138,6 @@ public class Analyzer {
                     break;
             }
         }
-
         String original = wordBuilder.toString();
         token.setOriginal(original == null ? null : original.trim());
         token.setFieldName(fieldName == null ? null : fieldName.trim());
@@ -154,24 +150,13 @@ public class Analyzer {
         }
         return token;
     }
-
     private Character getNextLetter() {
         if (position < this.contentArray.length) {
             return this.contentArray[position++];
         }
         return null;
     }
-
     private Boolean isFinish() {
         return !(position < this.contentArray.length);
-    }
-
-
-    public static void main(String[] args) {
-        String s = "user ( sex=男,age , permissionList =  permission) =user,  role ,role=18,  height = 18,weight";
-        Analyzer analyzer = new Analyzer(s);
-        List<Token> tokenList = analyzer.analyze();
-        System.out.println(tokenList);
-
     }
 }
