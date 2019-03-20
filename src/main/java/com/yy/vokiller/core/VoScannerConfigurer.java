@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
 /**
  * @author Macbook
  */
-public class VOScannerConfigurer implements BeanFactoryPostProcessor, ApplicationContextAware {
+public class VoScannerConfigurer implements BeanFactoryPostProcessor, ApplicationContextAware {
     private ApplicationContext applicationContext;
     private String basePackage;
 
@@ -28,7 +28,7 @@ public class VOScannerConfigurer implements BeanFactoryPostProcessor, Applicatio
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        VOScanner scanner = new VOScanner((BeanDefinitionRegistry) beanFactory);
+        VoScanner scanner = new VoScanner((BeanDefinitionRegistry) beanFactory);
         scanner.setResourceLoader(this.applicationContext);
         scanner.scan(StringUtils.tokenizeToStringArray(this.basePackage, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS));
     }

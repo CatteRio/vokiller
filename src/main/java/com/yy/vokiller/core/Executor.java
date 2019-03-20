@@ -1,6 +1,6 @@
 package com.yy.vokiller.core;
 
-import com.yy.vokiller.annotation.VOParam;
+import com.yy.vokiller.annotation.VoParam;
 import com.yy.vokiller.exception.*;
 import com.yy.vokiller.parser.Structure;
 import com.yy.vokiller.utils.AnnotationUtils;
@@ -9,7 +9,6 @@ import net.sf.cglib.beans.BeanMap;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +36,7 @@ public class Executor {
     }
 
     private Object execute(Structure structure, Object[] args) throws StatusException {
-        Map<VOParam, Integer> voParamIntegerMap = structure.getAnnoPositionMap();
+        Map<VoParam, Integer> voParamIntegerMap = structure.getAnnoPositionMap();
         Map<String, Object> argsValueMap = getAllArgsValueMap(args, voParamIntegerMap);
         //由bean generator生成
         if (structure.getType() == null) {
@@ -69,7 +68,7 @@ public class Executor {
             Object returnJob = null;
             if (voParamIntegerMap.size() == 1) {
                 Object arg = null;
-                for (Map.Entry<VOParam, Integer> voParam : voParamIntegerMap.entrySet()) {
+                for (Map.Entry<VoParam, Integer> voParam : voParamIntegerMap.entrySet()) {
                     arg = args[voParam.getValue()];
                     break;
                 }
@@ -102,12 +101,12 @@ public class Executor {
         }
     }
 
-    private Map<String, Object> getAllArgsValueMap(final Object[] args, Map<VOParam, Integer> voParamIntegerMap) throws StatusException {
+    private Map<String, Object> getAllArgsValueMap(final Object[] args, Map<VoParam, Integer> voParamIntegerMap) throws StatusException {
         Map<String, Object> argsValueMap = new HashMap<>(16);
         if (voParamIntegerMap == null) {
             return argsValueMap;
         }
-        for (VOParam voParam : voParamIntegerMap.keySet()) {
+        for (VoParam voParam : voParamIntegerMap.keySet()) {
             Object arg = args[voParamIntegerMap.get(voParam)];
             if (voParam == null) {
                 for (Field field : arg.getClass().getDeclaredFields()) {
@@ -202,7 +201,7 @@ public class Executor {
 //            Annotation[][] annotations = this.method.getParameterAnnotations();
 //            for (int i = 0; i < args.length; i++) {
 //                Object arg = args[i];
-//                VOParam voParam = AnnotationUtils.getParameterAnnotation(annotations[i], VOParam.class);
+//                VoParam voParam = AnnotationUtils.getParameterAnnotation(annotations[i], VoParam.class);
 //                String fieldName = voParam.value();
 //                if (fieldName.isEmpty()) {
 //                    throw new ArgNameNotSpecifyException();
@@ -225,7 +224,7 @@ public class Executor {
 //            } catch (Exception e) {
 //                throw new UnknownException(e);
 //            }
-//            VOParam voParam = AnnotationUtils.getParameterAnnotation(annotations[i], VOParam.class);
+//            VoParam voParam = AnnotationUtils.getParameterAnnotation(annotations[i], VoParam.class);
 //            List<String> includeArgNames = Arrays.asList(voParam.include());
 //            List<String> excludeArgNames = Arrays.asList(voParam.exclude());
 //            if (!includeArgNames.isEmpty() && !excludeArgNames.isEmpty()) {

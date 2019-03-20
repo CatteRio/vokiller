@@ -13,9 +13,9 @@ import java.util.Set;
 /**
  * @author Macbook
  */
-public class VOScanner extends ClassPathBeanDefinitionScanner {
+public class VoScanner extends ClassPathBeanDefinitionScanner {
 
-    public VOScanner(BeanDefinitionRegistry registry) {
+    public VoScanner(BeanDefinitionRegistry registry) {
         super(registry);
     }
 
@@ -43,7 +43,7 @@ public class VOScanner extends ClassPathBeanDefinitionScanner {
             GenericBeanDefinition definition = (GenericBeanDefinition) holder.getBeanDefinition();
             definition.getConstructorArgumentValues().addGenericArgumentValue(definition.getBeanClassName());
 //            definition.getPropertyValues().add("innerClassName", definition.getBeanClassName());
-            definition.setBeanClass(VOFactoryBean.class);
+            definition.setBeanClass(VoFactoryBean.class);
         }
     }
 

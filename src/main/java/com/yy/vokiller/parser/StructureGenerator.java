@@ -1,6 +1,6 @@
 package com.yy.vokiller.parser;
 
-import com.yy.vokiller.annotation.VOParam;
+import com.yy.vokiller.annotation.VoParam;
 import com.yy.vokiller.exception.*;
 import com.yy.vokiller.utils.AnnotationEntry;
 import com.yy.vokiller.utils.AnnotationUtils;
@@ -37,10 +37,10 @@ public class StructureGenerator {
     private static Structure generateSpecifyClass(Class type, Method method) throws StatusException {
         Structure structure = new Structure();
         structure.setType(type);
-        Map<String, Map.Entry<VOParam, Class>> fieldNameMetaDataMap = AnnotationUtils.getVoParamMapping(method);
-        Map<VOParam, Integer> annoParamMap = new HashMap<>(16);
-        for (Map.Entry<String, Map.Entry<VOParam, Class>> entry : fieldNameMetaDataMap.entrySet()) {
-            AnnotationEntry<VOParam, Class> entry2 = (AnnotationEntry) entry.getValue();
+        Map<String, Map.Entry<VoParam, Class>> fieldNameMetaDataMap = AnnotationUtils.getVoParamMapping(method);
+        Map<VoParam, Integer> annoParamMap = new HashMap<>(16);
+        for (Map.Entry<String, Map.Entry<VoParam, Class>> entry : fieldNameMetaDataMap.entrySet()) {
+            AnnotationEntry<VoParam, Class> entry2 = (AnnotationEntry) entry.getValue();
             annoParamMap.put(entry2.getKey(), entry2.getPosition());
         }
         structure.setAnnoPositionMap(annoParamMap);
@@ -51,14 +51,14 @@ public class StructureGenerator {
         Structure structure = new Structure();
         List<String> fieldList = new ArrayList<>();
         Annotation[][] annotations = method.getParameterAnnotations();
-        Map<String, Map.Entry<VOParam, Class>> fieldNameMetaDataMap = AnnotationUtils.getVoParamMapping(method);
+        Map<String, Map.Entry<VoParam, Class>> fieldNameMetaDataMap = AnnotationUtils.getVoParamMapping(method);
         return generateStructure(tokenList, fieldNameMetaDataMap);
     }
 
-    private static Structure generateStructure(List<Token> tokenList, Map<String, Map.Entry<VOParam, Class>> fieldNameMetaDataMap) throws StatusException {
+    private static Structure generateStructure(List<Token> tokenList, Map<String, Map.Entry<VoParam, Class>> fieldNameMetaDataMap) throws StatusException {
         Structure structure = new Structure();
         List<String> fieldList = new ArrayList<>(16);
-        Map<VOParam, Integer> annoParamMap = new HashMap<>(16);
+        Map<VoParam, Integer> annoParamMap = new HashMap<>(16);
         if (tokenList.size() == 1) {
             Token token = tokenList.get(0);
             String fieldName = token.getFieldName();
@@ -67,13 +67,9 @@ public class StructureGenerator {
                 throw new PropertyNotFindException(valueName);
             }
             //根据value指定的值获取参数
-            Map.Entry<VOParam, Class> entry = fieldNameMetaDataMap.get(valueName);
+            Map.Entry<VoParam, Class> entry = fieldNameMetaDataMap.get(valueName);
             //TODO:处理直接赋值
-//            if(entry == null){
-//                AnnotationEntry<VOParam, Class> newEntry = new AnnotationEntry<>();
-//                newEntry.setKey(new VO);
-//            }
-            VOParam voParam = entry.getKey();
+            VoParam voParam = entry.getKey();
             Class clazz = entry.getValue();
             Integer position = ((AnnotationEntry) entry).getPosition();
             List<String> includeArgNames = AnnotationUtils.getIncludeArgNames(voParam);
@@ -146,11 +142,11 @@ public class StructureGenerator {
         Structure structure = new Structure();
         List<String> fieldList = new ArrayList<>();
         Annotation[][] annotations = method.getParameterAnnotations();
-        Map<VOParam, Integer> annoParamMap = new HashMap<>(16);
+        Map<VoParam, Integer> annoParamMap = new HashMap<>(16);
         //单个参数无需创建一级对象
         if (args.length == 1) {
             Object arg = args[0];
-            VOParam voParam = AnnotationUtils.getParameterAnnotation(annotations[0], VOParam.class);
+            VoParam voParam = AnnotationUtils.getParameterAnnotation(annotations[0], VoParam.class);
             List<String> includeArgNames = AnnotationUtils.getIncludeArgNames(voParam);
             List<String> excludeArgNames = AnnotationUtils.getExcludeArgNames(voParam);
             //都不为空抛异常
@@ -178,7 +174,7 @@ public class StructureGenerator {
         Map<String, Structure> structureMap = new HashMap<>(16);
         for (int i = 0; i < args.length; i++) {
             Object arg = args[i];
-            VOParam voParam = AnnotationUtils.getParameterAnnotation(annotations[i], VOParam.class);
+            VoParam voParam = AnnotationUtils.getParameterAnnotation(annotations[i], VoParam.class);
             String fieldName = voParam.value();
             if (fieldName.isEmpty()) {
                 throw new ArgNameNotSpecifyException();
@@ -193,7 +189,7 @@ public class StructureGenerator {
                 generator.addProperty(fieldName, arg.getClass());
             } else {
                 Structure singleStructure = generateSingleClass(arg, includeArgNames, excludeArgNames);
-                Map<VOParam, Integer> singleParamIntegerMap = new HashMap<>(16);
+                Map<VoParam, Integer> singleParamIntegerMap = new HashMap<>(16);
                 singleParamIntegerMap.put(voParam, i);
                 singleStructure.setAnnoPositionMap(singleParamIntegerMap);
                 structureMap.put(fieldName, singleStructure);
@@ -212,7 +208,7 @@ public class StructureGenerator {
         Structure structure = new Structure();
         List<String> fieldNameList = new ArrayList<>(16);
         Field[] fields = obj.getClass().getDeclaredFields();
-        Map<VOParam, Integer> annoParamMap = new HashMap<>(16);
+        Map<VoParam, Integer> annoParamMap = new HashMap<>(16);
         BeanGenerator singleGenerator = new BeanGenerator();
         for (int i = 0; i < fields.length; i++) {
             Field singleField = fields[i];

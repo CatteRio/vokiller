@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class VoKiller {
 
-    public static <T> Object getVO(Class<T> clazz, T obj, String value, Map<String, Object> properties) {
+    public static <T> Object getVo(Class<T> clazz, T obj, String value, Map<String, Object> properties) {
         BeanGenerator generator = new BeanGenerator();
         Map<String, Object> valuesMap = new HashMap<String, Object>(16);
         Field[] fields = clazz.getDeclaredFields();
@@ -44,8 +44,8 @@ public class VoKiller {
         return object;
     }
 
-    public static <T> Object getVO(Class<T> clazz, T obj, String value) {
-        return getVO(clazz, obj, value, null);
+    public static <T> Object getVo(Class<T> clazz, T obj, String value) {
+        return getVo(clazz, obj, value, null);
     }
 
     private static Boolean isContains(String[] source, String target) {

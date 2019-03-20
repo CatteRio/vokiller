@@ -13,7 +13,7 @@
 ```
 引入项目后集成Spring框架，配置扫描包路径，该包下存放动态VO接口类
 ```html
-<bean id="voScannerConfigurer" class="com.yy.vokiller.core.VOScannerConfigurer">
+<bean id="voScannerConfigurer" class="com.yy.vokiller.core.VoScannerConfigurer">
         <property name="basePackage" value="com.yy.test"/>
 </bean>
 ```
@@ -23,7 +23,7 @@
 package com.yy.test;
 
 import com.yy.vokiller.annotation.SelectVO;
-import com.yy.vokiller.annotation.VOParam;
+import com.yy.vokiller.annotation.VoParam;
 
 import java.util.List;
 

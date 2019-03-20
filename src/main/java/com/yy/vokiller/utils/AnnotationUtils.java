@@ -1,6 +1,6 @@
 package com.yy.vokiller.utils;
 
-import com.yy.vokiller.annotation.VOParam;
+import com.yy.vokiller.annotation.VoParam;
 import com.yy.vokiller.exception.ArgNameNotSpecifyException;
 import com.yy.vokiller.exception.ArgumentNameRepeatException;
 import com.yy.vokiller.exception.ArgumentNotNullException;
@@ -37,19 +37,19 @@ public class AnnotationUtils {
         return aList;
     }
 
-    public static Map<String, Map.Entry<VOParam, Class>> getVoParamMapping(Method method) throws StatusException {
+    public static Map<String, Map.Entry<VoParam, Class>> getVoParamMapping(Method method) throws StatusException {
         Annotation[][] annotations = method.getParameterAnnotations();
         Class[] clazzArray = method.getParameterTypes();
-        Map<String, Map.Entry<VOParam, Class>> fieldNameMetaDataMap = new HashMap<>(16);
+        Map<String, Map.Entry<VoParam, Class>> fieldNameMetaDataMap = new HashMap<>(16);
         if (clazzArray.length < 1) {
             throw new ArgumentNotNullException();
         }
         if (clazzArray.length == 1) {
             Annotation[] annotations1 = annotations[0];
-            VOParam annotation = getParameterAnnotation(annotations1, VOParam.class);
+            VoParam annotation = getParameterAnnotation(annotations1, VoParam.class);
             String parameterName = annotation == null ? null : annotation.value();
             Class clazz = clazzArray[0];
-            AnnotationEntry<VOParam, Class> entry = new AnnotationEntry<>();
+            AnnotationEntry<VoParam, Class> entry = new AnnotationEntry<>();
             entry.setKey(annotation);
             entry.setValue(clazz);
             entry.setPosition(0);
@@ -57,14 +57,14 @@ public class AnnotationUtils {
         } else {
             for (int i = 0; i < annotations.length; i++) {
                 Annotation[] annotations1 = annotations[i];
-                VOParam annotation = getParameterAnnotation(annotations1, VOParam.class);
+                VoParam annotation = getParameterAnnotation(annotations1, VoParam.class);
                 if (annotation != null && !StringUtils.isEmpty(annotation.value())) {
                     String parameterName = annotation.value();
                     if (fieldNameMetaDataMap.containsKey(parameterName)) {
                         throw new ArgumentNameRepeatException(parameterName);
                     }
                     Class clazz = clazzArray[i];
-                    AnnotationEntry<VOParam, Class> entry = new AnnotationEntry<>();
+                    AnnotationEntry<VoParam, Class> entry = new AnnotationEntry<>();
                     entry.setKey(annotation);
                     entry.setValue(clazz);
                     entry.setPosition(i);
@@ -78,7 +78,7 @@ public class AnnotationUtils {
     }
 
 
-    public static List<String> getIncludeArgNames(VOParam voParam) {
+    public static List<String> getIncludeArgNames(VoParam voParam) {
         if (voParam == null) {
             return new ArrayList<>(16);
         } else {
@@ -86,7 +86,7 @@ public class AnnotationUtils {
         }
     }
 
-    public static List<String> getExcludeArgNames(VOParam voParam) {
+    public static List<String> getExcludeArgNames(VoParam voParam) {
         if (voParam == null) {
             return new ArrayList<>(16);
         } else {

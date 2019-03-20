@@ -16,10 +16,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author yuanyang(417168602 @ qq.com)
  * @date 2019/3/18 10:59
  */
-public class VOHandler {
+public class VoHandler {
     private Map<Method, Executor> cachedMap;
 
-    public VOHandler() {
+    public VoHandler() {
         this.cachedMap = new ConcurrentHashMap<>(16);
     }
 
@@ -30,8 +30,8 @@ public class VOHandler {
         Class<?> returnType = method.getReturnType();
         List<Token> tokenList = null;
         if (returnType == Object.class) {
-            SelectVO selectVO = method.getDeclaredAnnotation(SelectVO.class);
-            String vql = selectVO.vql();
+            SelectVO selectVo = method.getDeclaredAnnotation(SelectVO.class);
+            String vql = selectVo.vql();
             Analyzer analyzer = new Analyzer(vql);
             tokenList = analyzer.analyze();
         }

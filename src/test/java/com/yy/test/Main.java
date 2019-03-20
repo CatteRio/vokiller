@@ -25,9 +25,9 @@ public class Main {
 //
 //
 //
-//        System.out.println(JSON.toJSONString(VoKiller.getVO(User.class, user, "response1")));
-//        System.out.println(JSON.toJSONString(VoKiller.getVO(User.class, user, "response2")));
-//        System.out.println(JSON.toJSONString(VoKiller.getVO(User.class, user, "response2", propertyMap)));
+//        System.out.println(JSON.toJSONString(VoKiller.getVo(User.class, user, "response1")));
+//        System.out.println(JSON.toJSONString(VoKiller.getVo(User.class, user, "response2")));
+//        System.out.println(JSON.toJSONString(VoKiller.getVo(User.class, user, "response2", propertyMap)));
 
 
         List<String> list = new ArrayList<String>();

@@ -8,16 +8,16 @@ import java.lang.reflect.Proxy;
  * @author: yuanyang(417168602 @ qq.com)
  * @date: 2019-03-15 20:01
  **/
-public class VOFactoryBean<T> implements FactoryBean<T> {
+public class VoFactoryBean<T> implements FactoryBean<T> {
     private Class innerClassName;
-    public VOFactoryBean(Class<T> mapperInterface) {
+    public VoFactoryBean(Class<T> mapperInterface) {
         this.innerClassName = mapperInterface;
     }
 //    public void setInnerClassName(String innerClassName) {
 //        this.innerClassName = innerClassName;
 //    }
 
-    private VOProxy mapperProxy = new VOProxy();
+    private VoProxy mapperProxy = new VoProxy();
 
     @Override
     public T getObject() throws Exception {
