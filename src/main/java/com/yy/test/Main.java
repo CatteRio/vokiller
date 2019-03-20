@@ -41,13 +41,13 @@ public class Main {
         user.setName("yuanyang");
         user.setSex("nan");
         user.setPermissionList(list);
-//        System.out.println(JSON.toJSONString(userVO.getUserResponse(user, 123, list, list)));
-//        System.out.println(JSON.toJSONString(userVO.getUserResponse(user, "123", 123)));
+        System.out.println(JSON.toJSONString(userVO.getUserResponse(user, 123, list, list)));
+        System.out.println(JSON.toJSONString(userVO.getUserResponse(user, "123", 123)));
         System.out.println(JSON.toJSONString(userVO.getUserNameResponseAll(user)));
-//        System.out.println(JSON.toJSONString(userVO.getUserNameResponse(user)));
-//        System.out.println(JSON.toJSONString(userVO.getUserNameObjectVOAll(user, "123", "234")));
-//        System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user, "123", "234")));
-//        System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user)));
+        System.out.println(JSON.toJSONString(userVO.getUserNameResponse(user)));
+        System.out.println(JSON.toJSONString(userVO.getUserNameObjectVOAll(user, "123", "234")));
+        System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user, "123", "234")));
+        System.out.println(JSON.toJSONString(userVO.getUserNameObjectVO(user)));
 
     }
 
